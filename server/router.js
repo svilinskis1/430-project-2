@@ -10,6 +10,9 @@ const router = (app) => {
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
 
   app.get('/budget', mid.requiresLogin, controllers.Budgeting.budgetingPage);
+  
+  app.post('/changeIncome', mid.requiresLogin, controllers.Budgeting.changeIncome);
+  app.post('/addExpense', mid.requiresLogin, controllers.Budgeting.addExpense);
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
