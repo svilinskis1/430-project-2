@@ -5,6 +5,8 @@ const {createRoot} = require('react-dom/client');
 
 const App = () => {
   const [reloadExpenses, setReloadExpenses] = useState(false);
+  const [reloadBudget, setReloadBudget] = useState(false);
+
     return (
       <div>
         <h1>Budgeting App</h1>
@@ -12,18 +14,7 @@ const App = () => {
 
         <h2>Budget: </h2>
         <h3 id = "Budget">$$$</h3>
-
-        <form id="expenseForm"
-          name="loginForm"
-          onSubmit={changeBudget}
-          action="/changeBudget"
-          method="POST"
-          className="form"
-        >
-          <label htmlFor="amount">Change Budget Amount: </label>
-          <input id="budgetAmount" type="number" name="amount" placeholder="0" />
-          <input className="formSubmit" type="submit" value="Change" />
-        </form>
+        <BudgetForm triggerReload={() => setReloadBudget(!reloadBudget)}/>
 
         <h2>Available Money: </h2>
         <h3 id = "available">$$$</h3>
@@ -44,6 +35,22 @@ const App = () => {
   };
   
   window.onload = init;
+
+  const BudgetForm = (props) => {
+    return (
+      <form id="expenseForm"
+      name="loginForm"
+      onSubmit={changeBudget}
+      action="/changeBudget"
+      method="POST"
+      className="form"
+    >
+      <label htmlFor="amount">Change Budget Amount: </label>
+      <input id="budgetAmount" type="number" name="amount" placeholder="0" />
+      <input className="formSubmit" type="submit" value="Change" />
+    </form>
+    )
+  }
 
   const ExpenseForm = (props) => {
     return(
@@ -99,11 +106,22 @@ const App = () => {
     );
   };
 
-const changeBudget = () => {
-  //TODO: change budget
+const changeBudget = (e, onBudgetAdded) => {
+  e.preventDefault();
+
+  const amount = e.target.querySelector('#budgetAmount').value;
+  
+
+  if(!amount) {
+    helper.handleError('Amount required!');
+    return false;
+  }
+
+  helper.sendPost(e.target.action, {amount}, onBudgetAdded);
+  return false;
 }
 
-const addExpense= (e, onExpenseAdded) => {
+const addExpense = (e, onExpenseAdded) => {
   e.preventDefault();
 
   const name = e.target.querySelector('#expenseName').value;

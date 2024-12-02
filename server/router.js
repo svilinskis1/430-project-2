@@ -11,8 +11,11 @@ const router = (app) => {
 
   app.get('/budget', mid.requiresLogin, controllers.Budgeting.budgetingPage);
 
+  app.get('/getBudget', mid.requiresLogin, controllers.Budgeting.getBudget);
+  app.get('/getAvailableBudget', mid.requiresLogin, controllers.Budgeting.getAvailableBudget);
+
   app.get('/getExpenses', mid.requiresLogin, controllers.Budgeting.getExpenses);
-  app.post('/changeIncome', mid.requiresLogin, controllers.Budgeting.changeIncome);
+  app.post('/changeBudget', mid.requiresLogin, controllers.Budgeting.changeBudget);
   app.post('/addExpense', mid.requiresLogin, controllers.Budgeting.addExpense);
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);

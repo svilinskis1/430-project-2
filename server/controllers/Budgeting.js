@@ -14,6 +14,24 @@ const getExpenses = async (req, res) => {
   }
 };
 
+const getBudget = async (req, res) => {
+  try {
+    return req.session.account.budget;
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Error retrieving budget!' });
+  }
+};
+
+const getAvailableBudget = async (req, res) => {
+  try {
+    return req.session.account.budget - req.session.account.usedBudget;
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Error retrieving available budget!' });
+  }
+};
+
 const addExpense = async (req, res) => {
   if (!req.body.name || !req.body.amount) {
     return res.status(400).json({ error: 'Name and amount are both required!' });
@@ -28,6 +46,7 @@ const addExpense = async (req, res) => {
   try {
     const newExpense = new Expense(expenseData);
     await newExpense.save();
+    req.session.account.usedBudget += newExpense.amount;
     return res.status(201).json({
       name: newExpense.name,
       amount: newExpense.amount,
@@ -38,14 +57,29 @@ const addExpense = async (req, res) => {
   }
 };
 
+const changeBudget = async (req, res) => {
+  if (!req.body.amount) {
+    return res.status(400).json({ error: 'Amount is required!' });
+  }
 
-const changeIncome = async (req, res) => {
-  return res.json({ message:"hi" });
+  const budget = req.body.amount;
+
+  try {
+    req.session.account.budget = budget;
+    return res.status(201).json({
+      budget: req.session.account.budget,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'An error occured changing the budget!' });
+  }
 };
 
 module.exports = {
   budgetingPage,
   getExpenses,
   addExpense,
-  changeIncome,
+  getBudget,
+  getAvailableBudget,
+  changeBudget,
 };
