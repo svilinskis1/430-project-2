@@ -1,7 +1,23 @@
-/* generic styles --------*/
 
+/* variables -------------- */
+:root {
+    --main-color: rgb(0, 160, 0);
+    --main-hover: rgb(0, 120, 0);
+    --main-active: rgb(1, 80, 1);
+    --light-color: rgb(237, 244, 247);
+    --light-accent: rgb(192, 194, 197);
+    --dark-accent: rgb(160, 162, 163);
+    --text-color:rgb(0, 0, 0);
+
+    --border-style: 3px solid var(--dark-accent);
+    --border-radius: 6px;
+  }
+
+
+/* generic styles --------*/
 html{
     font-family: sans-serif;
+    color: var(--text-color);
 }
 
 #logo{
@@ -11,16 +27,16 @@ html{
 
 button, input[type=submit]{
     border: none;
-    background-color: green;
-    color: white;
+    background-color: var(--main-color);
+    color: var(--light-color);
 }
 
 button:hover, input[type=submit]:hover{
-    background-color: rgb(0, 111, 0);
+    background-color: var(--main-hover);
 }
 
 button:active, input[type=submit]:active{
-    background-color: rgb(0, 51, 0);
+    background-color: var(--main-active);
 }
 
 
@@ -30,19 +46,19 @@ nav{
     flex-direction: row;
     gap: 48px;
     align-items: center;
-    background-color: rgb(102, 213, 65);
+    background-color: var(--main-color);
 }
 
 nav a {
-    color: white;
+    color: var(--light-color);
 }
 
 nav a:hover {
-    color: gray;
+    color: var(--light-accent);
 }
 
 nav a:active {
-    color: gray;
+    color: var(--dark-accent);
 }
 
 /* budgets--------------- */
@@ -61,10 +77,8 @@ nav a:active {
 
 .expense {
     width: 15%;
-    border: 3px;
-    border-style: solid;
-    border-color: black;
-    border-radius: 6px;
+    border: var(--border-style);
+    border-radius: var(--border-radius);
     padding: 8px;
 
     display: flex;
@@ -75,7 +89,7 @@ nav a:active {
 .expenseAmount {
     font-size: large;
     font-weight: bold;
-    color: green;
+    color: var(--main-color);
 }
 
 .expenseButtons {
