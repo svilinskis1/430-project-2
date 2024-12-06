@@ -6,24 +6,30 @@ const {createRoot} = require('react-dom/client');
 const App = () => {
   const [reloadExpenses, setReloadExpenses] = useState(false);
   const [reloadBudget, setReloadBudget] = useState(false);
+  const [reloadAvailableBudget, setReloadAvailableBudget] = useState(false);
 
     return (
       <div>
         <h1>Budgeting App</h1>
         <Popup/>
 
-        <h2>Budget: </h2>
-        <h3 id = "Budget">$$$</h3>
-        <BudgetForm triggerReload={() => setReloadBudget(!reloadBudget)}/>
-
-        <h2>Available Money: </h2>
-        <h3 id = "available">$$$</h3>
+        <div id = "budgets">
+          <div>
+            <h2>Budget: </h2>
+            <BudgetIndicator/>
+            <BudgetForm triggerReload={() => setReloadBudget(!reloadBudget)}/>
+          </div>
+          <div>
+            <h2>Available Money: </h2>
+            <AvailableBudgetIndicator/>
+          </div>
+        </div>
 
         <h2>Expenses:</h2>
-        <ExpenseList expenses={[]} reloadExpenses={reloadExpenses} />
-
         <h2>Add New Expense</h2>
         <ExpenseForm triggerReload={() => setReloadExpenses(!reloadExpenses)}/>
+        <ExpenseList expenses={[]} reloadExpenses={reloadExpenses} />
+
       </div>
     );
   };
@@ -35,6 +41,40 @@ const App = () => {
   };
   
   window.onload = init;
+
+  const BudgetIndicator = (props) => {
+    const [budget, setBudget] = useState(props.budget);
+  
+    useEffect(() => {
+      const loadBudgetFromServer = async () => {
+        const response = await fetch ('/getBudget');
+        const data = await response.json();
+        setBudget(data.budget);
+      };
+      loadBudgetFromServer();
+    }, [props.reloadBudget]);
+
+    return (
+      <h3 id = "Budget">{budget}</h3>
+    )
+  }
+
+  const AvailableBudgetIndicator = (props) => {
+    const [availableBudget, setAvailableBudget] = useState(props.availableBudget);
+  
+    useEffect(() => {
+      const loadAvailableBudgetFromServer = async () => {
+        const response = await fetch ('/getAvailableBudget');
+        const data = await response.json();
+        setAvailableBudget(data.availableBudget);
+      };
+      loadAvailableBudgetFromServer();
+    }, [props.reloadAvailableBudget]);
+
+    return (
+      <h3 id = "available">{availableBudget}</h3>
+    )
+  }
 
   const BudgetForm = (props) => {
     return (
@@ -93,8 +133,12 @@ const App = () => {
     const expenseNodes = expenses.map(expense => {
       return(
         <div key={expense.id} className="expense">
-          <h3 className="expenseName">{expense.name}: </h3>
-          <h3 className="expenseAmount">${expense.amount}</h3>
+          <p className="expenseName">{expense.name}</p>
+          <p className="expenseAmount">${expense.amount}</p>
+          <div classname = "expenseButtons">
+            <button>Edit</button>
+            <button>Delete</button>
+          </div>
         </div>
       );
     });

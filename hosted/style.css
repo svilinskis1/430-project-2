@@ -1,5 +1,7 @@
-html{
+/* generic styles --------*/
 
+html{
+    font-family: sans-serif;
 }
 
 #logo{
@@ -7,8 +9,82 @@ html{
     height: 100;
 }
 
+button, input[type=submit]{
+    border: none;
+    background-color: green;
+    color: white;
+}
 
-/* ad specific css-------------*/
+button:hover, input[type=submit]:hover{
+    background-color: rgb(0, 111, 0);
+}
+
+button:active, input[type=submit]:active{
+    background-color: rgb(0, 51, 0);
+}
+
+
+/*nav bar --------------- */
+nav{
+    display: flex;
+    flex-direction: row;
+    gap: 48px;
+    align-items: center;
+    background-color: rgb(102, 213, 65);
+}
+
+nav a {
+    color: white;
+}
+
+nav a:hover {
+    color: gray;
+}
+
+nav a:active {
+    color: gray;
+}
+
+/* budgets--------------- */
+#budgets{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+/* expenses--------------- */
+.expenseList {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 8px;
+}
+
+.expense {
+    width: 15%;
+    border: 3px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 6px;
+    padding: 8px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.expenseAmount {
+    font-size: large;
+    font-weight: bold;
+    color: green;
+}
+
+.expenseButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* ad-------------*/
 #ad{
     width: 200px;
     height: 200px;

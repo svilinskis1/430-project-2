@@ -19,9 +19,11 @@ const AccountSchema = new mongoose.Schema({
   },
   budget: {
     type: Number,
+    default: 0,
   },
   usedBudget: {
     type: Number,
+    default: 0,
   },
   createdDate: {
     type: Date,

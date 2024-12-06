@@ -11,6 +11,11 @@ const ExpenseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  owner: {
+    type: mongoose.Schema.ObjectId,
+    required: true,
+    ref: 'Account',
+  },
   createdDate: {
     type: Date,
     default: Date.now,
