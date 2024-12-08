@@ -4,6 +4,7 @@ module.exports = {
     entry: {
         app: './client/budgeting.jsx',
         login: './client/login.jsx',
+        notFound: './client/notFound.jsx',
     },
     module: {
         rules: [

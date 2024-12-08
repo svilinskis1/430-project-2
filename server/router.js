@@ -21,7 +21,7 @@ const router = (app) => {
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 
-  app.get('/*', controllers.Account.notFound);
+  app.get('/*', controllers.NotFound.notFound);
 };
 
 module.exports = router;
