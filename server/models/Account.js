@@ -22,10 +22,6 @@ const AccountSchema = new mongoose.Schema({
     default: 0,
     min:0,
   },
-  usedBudget: {
-    type: Number,
-    default: 0,
-  },
   createdDate: {
     type: Date,
     default: Date.now,

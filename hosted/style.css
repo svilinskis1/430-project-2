@@ -35,6 +35,12 @@ h2{
     align-items: center;
 }
 
+a{
+    color: var(--light-text);
+    font-size: small;
+    text-decoration: none;
+}
+
 /* inputs -------------------- */
 button, input[type=submit]{
     border: none;
@@ -91,6 +97,7 @@ nav{
 
 nav a {
     color: var(--light-color);
+    font-size: large;
 }
 
 nav a:hover {
@@ -102,7 +109,7 @@ nav a:active {
 }
 
 /* login and signup --------------*/
-#loginForm, #signupForm{
+.mainForm{
     display: flex;
     flex-direction: column;
     align-items: center;

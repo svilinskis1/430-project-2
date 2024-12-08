@@ -41,7 +41,39 @@ const handleSignup = (e) => {
   return false;
 }
 
+const handleChangePassword = (e) => {
+  e.preventDefault();
+  helper.hideError();
+
+  const username = e.target.querySelector('#user').value;
+  const oldPass = e.target.querySelector('#oldPass').value;
+  const newPass = e.target.querySelector('#newPass').value;
+  const newPass2 = e.target.querySelector('#newPass2').value;
+
+  if(!username || !oldPass || !newPass || !newPass2) {
+    helper.handleError('All fields are required!');
+    return false;
+  }
+
+  if(newPass !== newPass2){
+    helper.handleError('Passwords do not match!');
+    return false;
+  }
+
+  helper.sendPost(e.target.action, {username, oldPass, newPass, newPass2});
+
+  return false;
+}
+
 const LoginWindow = (props) => {
+
+  changePassword = (e) => {
+    e.preventDefault();
+    const root = createRoot(document.getElementById('content'));
+    root.render( <ChangePasswordWindow /> );
+    return false;
+  };
+
   return (
     <form id="loginForm"
       name="loginForm"
@@ -51,10 +83,9 @@ const LoginWindow = (props) => {
       className="mainForm"
     >
       <h2>Log In</h2>
-      <label htmlFor="username">Username: </label>
-      <input id="user" type="text" name="username" placeholder="username" />
-      <label htmlFor="pass">Password: </label>
-      <input id="pass" type="password" name="pass" placeholder="password" />
+      <input id="user" type="text" name="username" placeholder="Username" />
+      <input id="pass" type="password" name="pass" placeholder="Password" />
+      <a id = "changePasswordButton" href="/changePassword" onClick={changePassword}>Change Password</a>
       <input className="formSubmit" type="submit" value="Sign in" />
     </form>
   );
@@ -70,13 +101,29 @@ const SignupWindow = (props) => {
       className="mainForm"
     >
       <h2>Sign Up</h2>
-      <label htmlFor="username">Username: </label>
-      <input id="user" type="text" name="username" placeholder="username" />
-      <label htmlFor="pass">Password: </label>
-      <input id="pass" type="password" name="pass" placeholder="password" />
-      <label htmlFor="pass">Password: </label>
-      <input id="pass2" type="password" name="pass2" placeholder="retype password" />
+      <input id="user" type="text" name="username" placeholder="Username" />
+      <input id="pass" type="password" name="pass" placeholder="Password" />
+      <input id="pass2" type="password" name="pass2" placeholder="Retype Password" />
       <input className="formSubmit" type="submit" value="Sign up" />
+    </form>
+  );
+};
+
+const ChangePasswordWindow = (props) => {
+  return (
+    <form id="changePasswordForm"
+      name="changePasswordForm"
+      onSubmit={handleChangePassword}
+      action="/changePassword"
+      method="POST"
+      className="mainForm"
+    >
+      <h2>Change Password</h2>
+      <input id="user" type="text" name="username" placeholder="Username" />
+      <input id="oldPass" type="password" name="pass" placeholder="Old Password" />
+      <input id="newPass" type="password" name="pass2" placeholder="New Password" />
+      <input id="newPass2" type="password" name="pass3" placeholder="Retype New Password" />
+      <input className="formSubmit" type="submit" value="Change Password" />
     </form>
   );
 };
