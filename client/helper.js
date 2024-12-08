@@ -1,5 +1,6 @@
 const handleError = (message) => {
-  //TODO: alert user of errors
+  document.getElementById('errorMessage').textContent = message;
+  document.getElementById('errorMessage').classList.remove('hidden');
 };
 
 const sendPost = async (url, data, handler) => {
@@ -27,7 +28,7 @@ const sendPost = async (url, data, handler) => {
 };
 
 const hideError = () => {
-    //TODO: hide error shown to the user
+  document.getElementById('errorMessage').classList.add('hidden');
 };
 
 module.exports = {

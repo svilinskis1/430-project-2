@@ -46,11 +46,10 @@ const handleChangePassword = (e) => {
   helper.hideError();
 
   const username = e.target.querySelector('#user').value;
-  const oldPass = e.target.querySelector('#oldPass').value;
   const newPass = e.target.querySelector('#newPass').value;
   const newPass2 = e.target.querySelector('#newPass2').value;
 
-  if(!username || !oldPass || !newPass || !newPass2) {
+  if(!username || !newPass || !newPass2) {
     helper.handleError('All fields are required!');
     return false;
   }
@@ -60,7 +59,7 @@ const handleChangePassword = (e) => {
     return false;
   }
 
-  helper.sendPost(e.target.action, {username, oldPass, newPass, newPass2});
+  helper.sendPost(e.target.action, {username, newPass, newPass2});
 
   return false;
 }
@@ -120,7 +119,6 @@ const ChangePasswordWindow = (props) => {
     >
       <h2>Change Password</h2>
       <input id="user" type="text" name="username" placeholder="Username" />
-      <input id="oldPass" type="password" name="pass" placeholder="Old Password" />
       <input id="newPass" type="password" name="pass2" placeholder="New Password" />
       <input id="newPass2" type="password" name="pass3" placeholder="Retype New Password" />
       <input className="formSubmit" type="submit" value="Change Password" />
