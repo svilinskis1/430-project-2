@@ -20,6 +20,7 @@ const AccountSchema = new mongoose.Schema({
   budget: {
     type: Number,
     default: 0,
+    min:0,
   },
   usedBudget: {
     type: Number,

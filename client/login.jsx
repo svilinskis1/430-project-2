@@ -50,6 +50,7 @@ const LoginWindow = (props) => {
       method="POST"
       className="mainForm"
     >
+      <h2>Log In</h2>
       <label htmlFor="username">Username: </label>
       <input id="user" type="text" name="username" placeholder="username" />
       <label htmlFor="pass">Password: </label>
@@ -68,6 +69,7 @@ const SignupWindow = (props) => {
       method="POST"
       className="mainForm"
     >
+      <h2>Sign Up</h2>
       <label htmlFor="username">Username: </label>
       <input id="user" type="text" name="username" placeholder="username" />
       <label htmlFor="pass">Password: </label>

@@ -10,25 +10,30 @@ const App = () => {
 
     return (
       <div>
-        <h1>Budgeting App</h1>
+        <h1>a's Budget</h1>
         <Popup/>
 
         <div id = "budgets">
           <div>
-            <h2>Budget: </h2>
-            <BudgetIndicator/>
-            <BudgetForm triggerReload={() => setReloadBudget(!reloadBudget)}/>
+            <div className="column">
+              <BudgetIndicator/>
+              <h2>Budget</h2>
+              <BudgetForm triggerReload={() => setReloadBudget(!reloadBudget)}/>
+            </div>
           </div>
           <div>
-            <h2>Available Money: </h2>
-            <AvailableBudgetIndicator/>
+            <div className="column">
+              <AvailableBudgetIndicator/>
+              <h2>Available Money</h2>
+            </div>
           </div>
         </div>
 
-        <h2>Expenses:</h2>
-        <h2>Add New Expense</h2>
-        <ExpenseForm triggerReload={() => setReloadExpenses(!reloadExpenses)}/>
-        <ExpenseList expenses={[]} reloadExpenses={reloadExpenses} />
+        <div id = "expenses" className='column'>
+          <h2>Expenses</h2>
+          <ExpenseForm triggerReload={() => setReloadExpenses(!reloadExpenses)}/>
+          <ExpenseList expenses={[]} reloadExpenses={reloadExpenses} />
+        </div>
 
       </div>
     );
@@ -55,7 +60,8 @@ const App = () => {
     }, [props.reloadBudget]);
 
     return (
-      <h3 id = "Budget">{budget}</h3>
+      //<h3 id = "Budget">{budget}</h3>
+      <p id = "Budget">$100</p>
     )
   }
 
@@ -72,7 +78,8 @@ const App = () => {
     }, [props.reloadAvailableBudget]);
 
     return (
-      <h3 id = "available">{availableBudget}</h3>
+      //<h3 id = "available">{availableBudget}</h3>
+      <p id = "available">$100</p>
     )
   }
 
@@ -85,7 +92,7 @@ const App = () => {
       method="POST"
       className="form"
     >
-      <label htmlFor="amount">Change Budget Amount: </label>
+      <label htmlFor="amount">Change Budget Amount: $</label>
       <input id="budgetAmount" type="number" name="amount" placeholder="0" />
       <input className="formSubmit" type="submit" value="Change" />
     </form>
@@ -101,9 +108,9 @@ const App = () => {
         method="POST"
         className="form"
       >
-        <label htmlFor="name">Name: </label>
-        <input id="expenseName" type="text" name="name" placeholder="name" />
-        <label htmlFor="amount">Amount: </label>
+        <label htmlFor="name">Add New Expense: </label>
+        <input id="expenseName" type="text" name="name" placeholder="Name" />
+        <label htmlFor="amount">$</label>
         <input id="expenseAmount" type="number" name="amount" placeholder="0" />
         <input className="formSubmit" type="submit" value="Add" />
       </form>
