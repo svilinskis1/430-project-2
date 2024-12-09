@@ -13,19 +13,19 @@ const App = () => {
       <div>
         <Popup/>
 
-        <UserIndicator/>
+        <UserIndicator username = {[]} reloadUsername = {reloadUsername}/>
 
         <div id = "budgets">
           <div>
             <div className="column">
-              <BudgetIndicator/>
+              <BudgetIndicator budget={[]} reloadBudget = {reloadBudget} />
               <h2>Budget</h2>
               <BudgetForm triggerReload={() => setReloadBudget(!reloadBudget)}/>
             </div>
           </div>
           <div>
             <div className="column">
-              <AvailableBudgetIndicator/>
+              <AvailableBudgetIndicator availableBudget={[]} reloadAvailableBudget = {reloadAvailableBudget}/>
               <h2>Available Money</h2>
             </div>
           </div>
@@ -62,8 +62,8 @@ const App = () => {
     }, [props.reloadUsername]);
 
     return (
-      //<h1 id = "userIndicator">{username}'s Budget</h1>
-      <h1 id = "userIndicator">My Budget</h1>
+      <h1 id = "userIndicator">{username}'s Budget</h1>
+      //<h1 id = "userIndicator">My Budget</h1>
     )
   }
 
@@ -80,8 +80,8 @@ const App = () => {
     }, [props.reloadBudget]);
 
     return (
-      //<h3 id = "Budget">{budget}</h3>
-      <p id = "Budget">$100</p>
+      <h3 id = "Budget">{budget}</h3>
+      //<p id = "Budget">$100</p>
     )
   }
 
@@ -98,8 +98,8 @@ const App = () => {
     }, [props.reloadAvailableBudget]);
 
     return (
-      //<h3 id = "available">{availableBudget}</h3>
-      <p id = "available">$100</p>
+      <h3 id = "available">{availableBudget}</h3>
+      //<p id = "available">$100</p>
     )
   }
 
@@ -151,9 +151,7 @@ const App = () => {
   
     if(expenses.length === 0) {
       return (
-        <div className="expenseList">
-          <h3 className="emptyExpense">No Expenses Yet!</h3>
-        </div>
+        <h3 className="emptyExpense column">No Expenses Yet!</h3>
       );
     }
   
@@ -164,9 +162,7 @@ const App = () => {
           <p className="expenseName">{expense.name}</p>
           <p className="expenseAmount">${expense.amount}</p>
           <button 
-            id = {expense.id} 
-            action = "/deleteExpense" 
-            onClick={(e) => deleteExpense(e, props.triggerReload)}>
+            onClick={(e) => deleteExpense(e, props.triggerReload, expense.id)}>
             Delete</button>
         </div>
       );
@@ -210,13 +206,10 @@ const addExpense = (e, onExpenseAdded) => {
   return false;
 };
 
-const deleteExpense = (e, onExpenseDeleted) => {
+const deleteExpense = (e, onExpenseDeleted, expenseId) => {
   e.preventDefault();
-  console.log(e.target);
 
-  const expenseId = e.target.id;
-
-  helper.sendPost(e.target.action, {expenseId}, onExpenseDeleted);
+  helper.sendPost('/deleteExpense', expenseId, onExpenseDeleted);
   return false;
 };
 

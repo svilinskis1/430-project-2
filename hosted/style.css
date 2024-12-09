@@ -42,9 +42,10 @@ a{
     text-decoration: none;
 }
 
-#errorMessage{
+.warning{
     color: var(--warning-color);
 }
+
 
 /* inputs -------------------- */
 button, input[type=submit]{
@@ -168,7 +169,6 @@ nav a:active {
     font-weight: bold;
     color: var(--main-color);
 }
-
 
 /* ad-------------*/
 #ad{

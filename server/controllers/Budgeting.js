@@ -1,4 +1,5 @@
 const { Expense } = require('../models');
+const { Account } = require('../models');
 
 const budgetingPage = async (req, res) => res.render('app');
 
@@ -25,7 +26,18 @@ const getBudget = async (req, res) => {
 
 const getAvailableBudget = async (req, res) => {
   try {
-    return req.session.account.budget - req.session.account.usedBudget;
+    const query = { owner: req.session.account._id };
+    const docs = await Expense.find(query).select('name amount').lean().exec();
+    expenseTotal = 0;
+
+    docs.forEach(element => {
+      expenseTotal += element.amount; 
+    });
+
+    availablebudget = req.session.account.budget - expenseTotal;
+
+    return res.json({amount : availablebudget});
+
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Error retrieving available budget!' });
@@ -74,10 +86,11 @@ const changeBudget = async (req, res) => {
     return res.status(400).json({ error: 'Amount is required!' });
   }
 
-  const budget = req.body.amount;
+  const newBudget = req.body.amount;
+  const username = req.session.account.username;
 
   try {
-    req.session.account.budget = budget;
+    await Account.updateOne({username}, {budget : newBudget})
     return res.status(201).json({
       budget: req.session.account.budget,
     });
