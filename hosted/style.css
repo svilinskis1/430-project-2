@@ -44,9 +44,6 @@ a{
 
 #errorMessage{
     color: var(--warning-color);
-    width:100%;
-    display: flex;
-    justify-content: center;
 }
 
 /* inputs -------------------- */
@@ -150,6 +147,9 @@ nav a:active {
     border: var(--border-style);
     border-radius: var(--border-radius);
     padding: 8px;
+    min-width: 100px;
+    max-width: 250px;
+    overflow-wrap: anywhere;
 
     display: flex;
     flex-direction: column;
@@ -169,11 +169,6 @@ nav a:active {
     color: var(--main-color);
 }
 
-.expenseButtons {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
 
 /* ad-------------*/
 #ad{

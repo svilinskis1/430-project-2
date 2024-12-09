@@ -79,10 +79,20 @@ const changePassword = async (req, res) => {
   }
 }
 
+const getUsername = async (req, res) => {
+  try {
+    return req.session.account.username;
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Error retrieving username!' });
+  }
+}
+
 module.exports = {
   loginPage,
   login,
   logout,
   signup,
   changePassword,
+  getUsername
 };

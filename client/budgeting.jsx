@@ -7,11 +7,13 @@ const App = () => {
   const [reloadExpenses, setReloadExpenses] = useState(false);
   const [reloadBudget, setReloadBudget] = useState(false);
   const [reloadAvailableBudget, setReloadAvailableBudget] = useState(false);
+  const [reloadUsername, setReloadUsername] = useState(false);
 
     return (
       <div>
-        <h1>a's Budget</h1>
         <Popup/>
+
+        <UserIndicator/>
 
         <div id = "budgets">
           <div>
@@ -46,6 +48,24 @@ const App = () => {
   };
   
   window.onload = init;
+
+  const UserIndicator = (props) => {
+    const [username, setUsername] = useState(props.username);
+  
+    useEffect(() => {
+      const loadUsernameFromServer = async () => {
+        const response = await fetch ('/getUsername');
+        const data = await response.json();
+        setUsername(data.username);
+      };
+      loadUsernameFromServer();
+    }, [props.reloadUsername]);
+
+    return (
+      //<h1 id = "userIndicator">{username}'s Budget</h1>
+      <h1 id = "userIndicator">My Budget</h1>
+    )
+  }
 
   const BudgetIndicator = (props) => {
     const [budget, setBudget] = useState(props.budget);
@@ -85,9 +105,9 @@ const App = () => {
 
   const BudgetForm = (props) => {
     return (
-      <form id="expenseForm"
+      <form id="budgetForm"
       name="loginForm"
-      onSubmit={changeBudget}
+      onSubmit={(e) => changeBudget(e, props.triggerReload)}
       action="/changeBudget"
       method="POST"
       className="form"
@@ -103,7 +123,7 @@ const App = () => {
     return(
       <form id="expenseForm"
         name="loginForm"
-        onSubmit={addExpense}
+        onSubmit={(e) => addExpense(e, props.triggerReload)}
         action="/addExpense"
         method="POST"
         className="form"
@@ -138,14 +158,16 @@ const App = () => {
     }
   
     const expenseNodes = expenses.map(expense => {
+      
       return(
         <div key={expense.id} className="expense">
           <p className="expenseName">{expense.name}</p>
           <p className="expenseAmount">${expense.amount}</p>
-          <div classname = "expenseButtons">
-            <button>Edit</button>
-            <button>Delete</button>
-          </div>
+          <button 
+            id = {expense.id} 
+            action = "/deleteExpense" 
+            onClick={(e) => deleteExpense(e, props.triggerReload)}>
+            Delete</button>
         </div>
       );
     });
@@ -188,6 +210,16 @@ const addExpense = (e, onExpenseAdded) => {
   return false;
 };
 
+const deleteExpense = (e, onExpenseDeleted) => {
+  e.preventDefault();
+  console.log(e.target);
+
+  const expenseId = e.target.id;
+
+  helper.sendPost(e.target.action, {expenseId}, onExpenseDeleted);
+  return false;
+};
+
 //popup specific code --------------------------------//
 const Popup = (props) =>{
     return(
@@ -198,7 +230,6 @@ const Popup = (props) =>{
 }
 
 const hidePopup = () => {
-    console.log(document.getElementById('ad'));
     document.getElementById('ad').classList.add('hidden');
     setTimeout(showPopup, 2000);
 }

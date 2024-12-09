@@ -12,12 +12,15 @@ const router = (app) => {
 
   app.get('/budget', mid.requiresLogin, controllers.Budgeting.budgetingPage);
 
+  app.get('/getUsername', mid.requiresLogin, controllers.Account.getUsername);
+
   app.get('/getBudget', mid.requiresLogin, controllers.Budgeting.getBudget);
   app.get('/getAvailableBudget', mid.requiresLogin, controllers.Budgeting.getAvailableBudget);
 
   app.get('/getExpenses', mid.requiresLogin, controllers.Budgeting.getExpenses);
   app.post('/changeBudget', mid.requiresLogin, controllers.Budgeting.changeBudget);
   app.post('/addExpense', mid.requiresLogin, controllers.Budgeting.addExpense);
+  app.post('/deleteExpense', mid.requiresLogin, controllers.Budgeting.deleteExpense)
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 

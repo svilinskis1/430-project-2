@@ -57,6 +57,18 @@ const addExpense = async (req, res) => {
   }
 };
 
+const deleteExpense = async (req, res) => {
+  const expenseId = req.expenseId;
+
+  try{
+    await Expense.findOneAndDelete({expenseId});
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'An error occured!' });
+  }
+}
+
+
 const changeBudget = async (req, res) => {
   if (!req.body.amount) {
     return res.status(400).json({ error: 'Amount is required!' });
@@ -82,4 +94,5 @@ module.exports = {
   getBudget,
   getAvailableBudget,
   changeBudget,
+  deleteExpense,
 };
