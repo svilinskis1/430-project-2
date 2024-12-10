@@ -10,7 +10,7 @@ const getExpenses = async (req, res) => {
     const query = { owner: req.session.account._id };
     const docs = await Expense.find(query).select('name amount').lean().exec();
 
-    return res.json({ expenses: docs });
+    return res.status(201).json({ expenses: docs });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Error retrieving expenses!' });
@@ -23,7 +23,7 @@ const getBudget = async (req, res) => {
   try {
     const query = { _id: req.session.account._id };
     const docs = await Account.findOne(query);
-    return res.json({ budget: docs.budget });
+    return res.status(201).json({ budget: docs.budget });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Error retrieving budget!' });
@@ -33,7 +33,6 @@ const getBudget = async (req, res) => {
 // calculates the budget based on the base amount and a list of expenses
 const calculateAvailableBudget = (budget, expenses) => {
   let expenseTotal = 0;
-  console.log(expenses);
   expenses.forEach((element) => {
     expenseTotal += element.amount;
   });
