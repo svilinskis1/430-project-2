@@ -7,7 +7,6 @@ const App = () => {
   const [reloadExpenses, setReloadExpenses] = useState(false);
   const [reloadBudget, setReloadBudget] = useState(false);
   const [reloadAvailableBudget, setReloadAvailableBudget] = useState(false);
-  const [reloadUsername, setReloadUsername] = useState(false);
 
     return (
       <div>
@@ -17,14 +16,14 @@ const App = () => {
         <div id = "budgets">
           <div>
             <div className="column">
-              <BudgetIndicator/>
+              <BudgetIndicator reloadBudget = {reloadBudget}/>
               <h2>Budget</h2>
               <BudgetForm triggerReload={() => setReloadBudget(!reloadBudget)}/>
             </div>
           </div>
           <div>
             <div className="column">
-              <AvailableBudgetIndicator/>
+              <AvailableBudgetIndicator reloadBudget = {reloadBudget} reloadExpenses = {reloadExpenses}/>
               <h2>Available Money</h2>
             </div>
           </div>
@@ -58,11 +57,10 @@ const UserIndicator = (props) => {
       setUsername(data.username);
     };
     loadUsernameFromServer();
-  }, [props.reloadUsername]);
+  }, [props.triggerReload]);
 
   return (
-    //<h1 id = "userIndicator">{username}'s Budget</h1>
-    <h1 id = "userIndicator">My Budget</h1>
+    <h1 id = "userIndicator">{username}'s Budget</h1>
   )
 }
 
@@ -77,11 +75,10 @@ const BudgetIndicator = (props) => {
       setBudget(data.budget);
     };
     loadBudgetFromServer();
-  }, [props.reloadBudget]);
+  }, [props.reloadBudget, props.reloadExpenses]);
 
   return (
-    //<h3 id = "Budget">{budget}</h3>
-    <p id = "Budget">$100</p>
+    <h3 id = "Budget">${budget}</h3>
   )
 }
 
@@ -93,21 +90,19 @@ const AvailableBudgetIndicator = (props) => {
     const loadAvailableBudgetFromServer = async () => {
       const response = await fetch ('/getAvailableBudget');
       const data = await response.json();
-      setAvailableBudget(data.availableBudget);
+      setAvailableBudget(data.amount);
     };
     loadAvailableBudgetFromServer();
-  }, [props.reloadAvailableBudget]);
+  }, [props.reloadBudget, props.reloadExpenses]);
 
   //if the available budget is negative, make it red
   if(availableBudget < 0){
     return (
-      //<h3 id = "available">{availableBudget}</h3>
-      <p id = "available" className='warning'>$100</p>
+      <h3 id = "available" className="warning">${availableBudget}</h3>
     )
   }
   return (
-    //<h3 id = "available">{availableBudget}</h3>
-    <p id = "available">$100</p>
+    <h3 id = "available">${availableBudget}</h3>
   )
 }
 

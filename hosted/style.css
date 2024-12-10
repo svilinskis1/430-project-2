@@ -49,10 +49,6 @@ a{
     text-decoration: none;
 }
 
-.warning{
-    color: var(--warning-color);
-}
-
 /* specific elements ------------ */
 #userIndicator{
     padding-left: 3%;
@@ -218,4 +214,7 @@ nav a:active {
 .hidden {
     display: none;
 }
-/*---------------------------- */
+/*warning ---------------------------- */
+.warning{
+    color: var(--warning-color);
+}

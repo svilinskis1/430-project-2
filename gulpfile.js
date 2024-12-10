@@ -29,6 +29,7 @@ const jestTask = (done) => {
       ],
       "automock": false
     }));
+    done();
 };
 
 const build = gulp.parallel(jsTask, lintTask);

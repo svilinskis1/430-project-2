@@ -3,8 +3,8 @@ const { Account } = require('../models');
 
 const budgetingPage = async (req, res) => res.render('app');
 
-//parameters: none
-//returns: list of all expenses of the current user
+// parameters: none
+// returns: list of all expenses of the current user
 const getExpenses = async (req, res) => {
   try {
     const query = { owner: req.session.account._id };
@@ -17,18 +17,20 @@ const getExpenses = async (req, res) => {
   }
 };
 
-//parameters: none
-//returns: budget of the current user
+// parameters: none
+// returns: budget of the current user
 const getBudget = async (req, res) => {
   try {
-    return req.session.account.budget;
+    const query = { _id: req.session.account._id };
+    const docs = await Account.findOne(query);
+    return res.json({budget: docs.budget});
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Error retrieving budget!' });
   }
 };
 
-//calculates the budget based on the base amount and a list of expenses
+// calculates the budget based on the base amount and a list of expenses
 const calculateAvailableBudget = (budget, expenses) => {
   let expenseTotal = 0;
   expenses.forEach((element) => {
@@ -38,25 +40,29 @@ const calculateAvailableBudget = (budget, expenses) => {
   return availablebudget;
 };
 
-//parameters: none
-//returns: available budget of the current user (budget - expenses)
+// parameters: none
+// returns: available budget of the current user (budget - expenses)
 const getAvailableBudget = async (req, res) => {
   try {
     const query = { owner: req.session.account._id };
-    const docs = await Expense.find(query).select('name amount').lean().exec();
+    const expenses = await Expense.find(query).select('name amount').lean().exec();
 
-    const availablebudget = calculateAvailableBudget(req.session.account.budget, docs);
+    const accountId = { _id: req.session.account._id };
+    const account = await Account.findOne(accountId);
+    const budget = account.budget;
 
-    return res.json({ amount: availablebudget });
+    const availablebudget = calculateAvailableBudget(budget, expenses);
+
+    return res.status(201).json({ amount: availablebudget });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Error retrieving available budget!' });
   }
 };
 
-//adds a new expense to the current user's expenses
-//parameters: name, amount
-//returns: added expense
+// adds a new expense to the current user's expenses
+// parameters: name, amount
+// returns: added expense
 const addExpense = async (req, res) => {
   if (!req.body.name || !req.body.amount) {
     return res.status(400).json({ error: 'Name and amount are both required!' });
@@ -81,8 +87,8 @@ const addExpense = async (req, res) => {
   }
 };
 
-//removes an expense based on an id
-//parameters: expense id
+// removes an expense based on an id
+// parameters: expense id
 const deleteExpense = async (req, res) => {
   const { expenseId } = req.body;
 
@@ -95,9 +101,9 @@ const deleteExpense = async (req, res) => {
   }
 };
 
-//changes the current user's budget
-//parameters: amount
-//returns: changed budget
+// changes the current user's budget
+// parameters: amount
+// returns: changed budget
 const changeBudget = async (req, res) => {
   if (!req.body.amount) {
     return res.status(400).json({ error: 'Amount is required!' });
@@ -125,4 +131,5 @@ module.exports = {
   getAvailableBudget,
   changeBudget,
   deleteExpense,
+  calculateAvailableBudget,
 };

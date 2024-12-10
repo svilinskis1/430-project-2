@@ -2,7 +2,7 @@ const budgeting = require('./Budgeting.js');
 
 // test the calculateAvailableBudget method to make sure its working correctly
 describe('calculateAvailableBudget()', () => {
-  test('subtracts expenses from budget', () => {
+  test('should subtract expenses from budget', () => {
     expect(budgeting.calculateAvailableBudget(100, [5, 10, 15])).toBe(70);
   });
   test('should return a negative number', () => {
