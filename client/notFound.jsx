@@ -8,6 +8,7 @@ const init = () => {
 
   window.onload = init;
   
+  //page that shows if user goes to an invalid url
   const NotFound = (props) => {
     return(
         <div className='column'>

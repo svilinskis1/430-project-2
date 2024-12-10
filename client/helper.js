@@ -1,8 +1,10 @@
+//shows the error message and changes its text 
 const handleError = (message) => {
   document.getElementById('errorMessage').textContent = message;
   document.getElementById('errorMessage').classList.remove('hidden');
 };
 
+//sends a post to the server
 const sendPost = async (url, data, handler) => {
   const response = await fetch(url, {
     method: 'POST',
@@ -27,6 +29,7 @@ const sendPost = async (url, data, handler) => {
   }
 };
 
+//hides the error message
 const hideError = () => {
   document.getElementById('errorMessage').classList.add('hidden');
 };

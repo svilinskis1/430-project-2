@@ -2,30 +2,37 @@ const helper = require('./helper.js');
 const React = require('react');
 const {createRoot} = require('react-dom/client');
 
+//sends a login request to the server
 const handleLogin = (e) => {
   e.preventDefault();
   helper.hideError();
-
+ 
+  //get the data from the html form
   const username = e.target.querySelector('#user').value;
   const pass = e.target.querySelector('#pass').value;
 
+  //check if its valid
   if(!username || !pass) {
     helper.handleError('Username or password is empty!');
     return false;
   }
 
+  //send the post
   helper.sendPost(e.target.action, {username, pass});
   return false;
 }
 
+//sends a signup request to the server
 const handleSignup = (e) => {
   e.preventDefault();
   helper.hideError();
 
+  //get the data from the html form
   const username = e.target.querySelector('#user').value;
   const pass = e.target.querySelector('#pass').value;
   const pass2 = e.target.querySelector('#pass2').value;
 
+  //check if its valid
   if(!username || !pass || !pass2) {
     helper.handleError('All fields are required!');
     return false;
@@ -36,19 +43,22 @@ const handleSignup = (e) => {
     return false;
   }
 
+  //send the post
   helper.sendPost(e.target.action, {username, pass, pass2});
-
   return false;
 }
 
+//sends a change password request to the server
 const handleChangePassword = (e) => {
   e.preventDefault();
   helper.hideError();
 
+  //get data from the html form
   const username = e.target.querySelector('#user').value;
   const newPass = e.target.querySelector('#newPass').value;
   const newPass2 = e.target.querySelector('#newPass2').value;
 
+  //check if its valid
   if(!username || !newPass || !newPass2) {
     helper.handleError('All fields are required!');
     return false;
@@ -59,13 +69,19 @@ const handleChangePassword = (e) => {
     return false;
   }
 
+  //send the post
   helper.sendPost(e.target.action, {username, newPass, newPass2});
 
   return false;
 }
 
+/*form that lets the user log in or change their password
+parameters: username (string), password (string)
+method:post
+method:login */
 const LoginWindow = (props) => {
 
+  //changePassword method for the changePassword button 
   changePassword = (e) => {
     e.preventDefault();
     const root = createRoot(document.getElementById('content'));
@@ -90,6 +106,10 @@ const LoginWindow = (props) => {
   );
 };
 
+/*form that lets the user make a new account
+parameters: username (string), password (string), retype password (string)
+method:post
+method:signup */
 const SignupWindow = (props) => {
   return (
     <form id="signupForm"
@@ -108,6 +128,10 @@ const SignupWindow = (props) => {
   );
 };
 
+/*form that lets the user change their password
+parameters: username (string), new password (string), retype new password (string)
+method:post
+method:changePasword */
 const ChangePasswordWindow = (props) => {
   return (
     <form id="changePasswordForm"
@@ -126,12 +150,14 @@ const ChangePasswordWindow = (props) => {
   );
 };
 
+//create the window
 const init = () => {
   const loginButton = document.getElementById('loginButton');
   const signupButton = document.getElementById('signupButton');
 
   const root = createRoot(document.getElementById('content'));
 
+  //hook up the buttons in the nav bar to render their correct windows
   loginButton.addEventListener('click', (e) => {
     e.preventDefault();
     root.render( <LoginWindow /> );
