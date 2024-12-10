@@ -1,4 +1,4 @@
-const budgeting = require('./Budgeting.js');
+const budgeting = require('../server/controllers/Budgeting.js');
 
 const testVars = {
   budget: 100,

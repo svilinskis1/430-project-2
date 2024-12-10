@@ -20,10 +20,10 @@ const lintTask = (done) => {
     
     done();
 }
-
+//from gulp-jest package website
 const jestTask = (done) => {
     process.env.NODE_ENV = 'test';
-    gulp.src('__tests__').pipe(jest({
+    gulp.src('tests').pipe(jest({
       "preprocessorIgnorePatterns": [
         "<rootDir>/dist/", "<rootDir>/node_modules/"
       ],
@@ -32,14 +32,14 @@ const jestTask = (done) => {
     done();
 };
 
-const build = gulp.parallel(jsTask, lintTask);
+const build = gulp.parallel(jsTask, lintTask, jestTask);
 const herokuBuild = gulp.parallel(jsTask);
 
 const watch = (done) => {
     gulp.watch(['./client/*.js', './client/*.jsx'], jsTask);
     nodemon({ 
         script: './server/app.js',
-        tasks: ['lintTask'],
+        tasks: ['lintTask', 'jestTask'],
         watch: ['./server'],
         done: done
     });
