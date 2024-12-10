@@ -184,10 +184,18 @@ nav a:active {
 }
 
 #ad button {
-    background-color: black;
+    background-color: rgb(22, 22, 22);
     border: none;
     color: white;
     border-radius: 50%;
+}
+
+#ad button:hover {
+    background-color: rgb(39, 39, 39);
+}
+
+#ad button:active {
+    background-color: rgb(78, 78, 78);
 }
 
 #ad img {

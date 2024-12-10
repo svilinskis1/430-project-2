@@ -44,7 +44,6 @@ const App = () => {
   const init = () => {
     const root = createRoot(document.getElementById('app'));
     root.render( <App /> );
-    setTimeout(hidePopup, 10000);
   };
   
   window.onload = init;
@@ -229,6 +228,7 @@ const deleteExpense = (e, onExpenseDeleted, expenseId) => {
 const Popup = (props) =>{
     return(
         <div id = 'ad'>
+            <button id = "close-ad" onClick={hidePopup}>x</button>
             <img src = "/assets/img/ad.jpg"/>
         </div>
     )
@@ -236,11 +236,10 @@ const Popup = (props) =>{
 
 const hidePopup = () => {
     document.getElementById('ad').classList.add('hidden');
-    setTimeout(showPopup, 2000);
+    setTimeout(showPopup, 5000);
 }
 
 const showPopup = () => {
     document.getElementById('ad').classList.remove('hidden');
-    setTimeout(hidePopup, 10000);
 }
 //----------------------------------------------------//
