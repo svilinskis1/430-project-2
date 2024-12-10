@@ -62,8 +62,8 @@ const App = () => {
     }, [props.reloadUsername]);
 
     return (
-      <h1 id = "userIndicator">{username}'s Budget</h1>
-      //<h1 id = "userIndicator">My Budget</h1>
+      //<h1 id = "userIndicator">{username}'s Budget</h1>
+      <h1 id = "userIndicator">My Budget</h1>
     )
   }
 
@@ -80,8 +80,8 @@ const App = () => {
     }, [props.reloadBudget]);
 
     return (
-      <h3 id = "Budget">{budget}</h3>
-      //<p id = "Budget">$100</p>
+      //<h3 id = "Budget">{budget}</h3>
+      <p id = "Budget">$100</p>
     )
   }
 
@@ -98,8 +98,8 @@ const App = () => {
     }, [props.reloadAvailableBudget]);
 
     return (
-      <h3 id = "available">{availableBudget}</h3>
-      //<p id = "available">$100</p>
+      //<h3 id = "available">{availableBudget}</h3>
+      <p id = "available">$100</p>
     )
   }
 
@@ -158,11 +158,11 @@ const App = () => {
     const expenseNodes = expenses.map(expense => {
       
       return(
-        <div key={expense.id} className="expense">
+        <div key={expense._id} className="expense">
           <p className="expenseName">{expense.name}</p>
           <p className="expenseAmount">${expense.amount}</p>
           <button 
-            onClick={(e) => deleteExpense(e, props.triggerReload, expense.id)}>
+            onClick={(e) => deleteExpense(e, props.triggerReload, expense._id)}>
             Delete</button>
         </div>
       );
@@ -209,7 +209,7 @@ const addExpense = (e, onExpenseAdded) => {
 const deleteExpense = (e, onExpenseDeleted, expenseId) => {
   e.preventDefault();
 
-  helper.sendPost('/deleteExpense', expenseId, onExpenseDeleted);
+  helper.sendPost("/deleteExpense", {expenseId}, onExpenseDeleted);
   return false;
 };
 

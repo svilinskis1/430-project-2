@@ -20,7 +20,7 @@ const router = (app) => {
   app.get('/getExpenses', mid.requiresLogin, controllers.Budgeting.getExpenses);
   app.post('/changeBudget', mid.requiresLogin, controllers.Budgeting.changeBudget);
   app.post('/addExpense', mid.requiresLogin, controllers.Budgeting.addExpense);
-  app.post('/deleteExpense', mid.requiresLogin, controllers.Budgeting.deleteExpense)
+  app.post('/deleteExpense', mid.requiresLogin, controllers.Budgeting.deleteExpense);
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 

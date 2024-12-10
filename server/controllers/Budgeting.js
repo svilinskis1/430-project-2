@@ -28,16 +28,15 @@ const getAvailableBudget = async (req, res) => {
   try {
     const query = { owner: req.session.account._id };
     const docs = await Expense.find(query).select('name amount').lean().exec();
-    expenseTotal = 0;
+    let expenseTotal = 0;
 
-    docs.forEach(element => {
-      expenseTotal += element.amount; 
+    docs.forEach((element) => {
+      expenseTotal += element.amount;
     });
 
-    availablebudget = req.session.account.budget - expenseTotal;
+    const availablebudget = req.session.account.budget - expenseTotal;
 
-    return res.json({amount : availablebudget});
-
+    return res.json({ amount: availablebudget });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Error retrieving available budget!' });
@@ -70,16 +69,16 @@ const addExpense = async (req, res) => {
 };
 
 const deleteExpense = async (req, res) => {
-  const expenseId = req.expenseId;
+  const expenseId = req.body.expenseId ;
 
-  try{
-    await Expense.findOneAndDelete({expenseId});
+  try {
+    await Expense.findByIdAndDelete(expenseId);
+    return res.status(201).json({ message: "expense deleted successfully" });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: 'An error occured!' });
+    return res.status(500).json({ error: 'An error occured deleting the expense!' });
   }
-}
-
+};
 
 const changeBudget = async (req, res) => {
   if (!req.body.amount) {
@@ -87,10 +86,10 @@ const changeBudget = async (req, res) => {
   }
 
   const newBudget = req.body.amount;
-  const username = req.session.account.username;
+  const { username } = req.session.account;
 
   try {
-    await Account.updateOne({username}, {budget : newBudget})
+    await Account.updateOne({ username }, { budget: newBudget });
     return res.status(201).json({
       budget: req.session.account.budget,
     });

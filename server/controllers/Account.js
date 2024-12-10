@@ -61,23 +61,23 @@ const changePassword = async (req, res) => {
   const newPass = `${req.body.newPass}`;
   const newPass2 = `${req.body.newPass2}`;
 
-  if(!username || !newPass || !newPass2) {
+  if (!username || !newPass || !newPass2) {
     return res.status(400).json({ error: 'All fields are required!' });
   }
 
-  if(newPass !== newPass2) {
+  if (newPass !== newPass2) {
     return res.status(400).json({ error: 'Passwords do not match!' });
   }
 
-  try{
+  try {
     const newHash = await Account.generateHash(newPass);
-    await Account.updateOne({username}, {password : newHash})
+    await Account.updateOne({ username }, { password: newHash });
     return res.json({ redirect: '/login' });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'An error occured!' });
   }
-}
+};
 
 const getUsername = async (req, res) => {
   try {
@@ -86,7 +86,7 @@ const getUsername = async (req, res) => {
     console.log(err);
     return res.status(500).json({ error: 'Error retrieving username!' });
   }
-}
+};
 
 module.exports = {
   loginPage,
@@ -94,5 +94,5 @@ module.exports = {
   logout,
   signup,
   changePassword,
-  getUsername
+  getUsername,
 };
