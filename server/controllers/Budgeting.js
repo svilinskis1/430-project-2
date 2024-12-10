@@ -33,6 +33,7 @@ const getBudget = async (req, res) => {
 // calculates the budget based on the base amount and a list of expenses
 const calculateAvailableBudget = (budget, expenses) => {
   let expenseTotal = 0;
+  console.log(expenses);
   expenses.forEach((element) => {
     expenseTotal += element.amount;
   });
