@@ -10,7 +10,7 @@ const getExpenses = async (req, res) => {
     const query = { owner: req.session.account._id };
     const docs = await Expense.find(query).select('name amount').lean().exec();
 
-    return res.status(201).json({ expenses: docs });
+    return res.status(200).json({ expenses: docs });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Error retrieving expenses!' });
@@ -23,7 +23,7 @@ const getBudget = async (req, res) => {
   try {
     const query = { _id: req.session.account._id };
     const docs = await Account.findOne(query);
-    return res.status(201).json({ budget: docs.budget });
+    return res.status(200).json({ budget: docs.budget });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Error retrieving budget!' });
@@ -53,7 +53,7 @@ const getAvailableBudget = async (req, res) => {
 
     const availablebudget = calculateAvailableBudget(budget, expenses);
 
-    return res.status(201).json({ amount: availablebudget });
+    return res.status(200).json({ amount: availablebudget });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Error retrieving available budget!' });

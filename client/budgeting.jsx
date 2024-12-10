@@ -6,7 +6,6 @@ const {createRoot} = require('react-dom/client');
 const App = () => {
   const [reloadExpenses, setReloadExpenses] = useState(false);
   const [reloadBudget, setReloadBudget] = useState(false);
-  const [reloadAvailableBudget, setReloadAvailableBudget] = useState(false);
 
     return (
       <div>

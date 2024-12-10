@@ -30,7 +30,7 @@ const login = (req, res) => {
     req.session.account = Account.toAPI(account);
 
     // send the user to main page
-    return res.json({ redirect: '/budget' });
+    return res.status(200).json({ redirect: '/budget' });
   });
 };
 
@@ -57,7 +57,7 @@ const signup = async (req, res) => {
     await newAccount.save();
     req.session.account = Account.toAPI(newAccount);
     // send user to main page
-    return res.json({ redirect: '/budget' });
+    return res.status(200).json({ redirect: '/budget' });
   } catch (err) {
     console.log(err);
     if (err.code === 11000) {
@@ -98,7 +98,7 @@ const changePassword = async (req, res) => {
 // returns: the current user's username
 const getUsername = async (req, res) => {
   try {
-    return res.status(201).json({ username: req.session.account.username });
+    return res.status(200).json({ username: req.session.account.username });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Error retrieving username!' });

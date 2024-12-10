@@ -213,6 +213,7 @@ nav a:active {
 .hidden {
     display: none;
 }
+
 /*warnings--------------------------- */
 .warning{
     color: var(--warning-color);

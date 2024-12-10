@@ -20,7 +20,9 @@ const lintTask = (done) => {
     
     done();
 }
+
 //from gulp-jest package website
+//https://www.npmjs.com/package/gulp-jest 
 const jestTask = (done) => {
     process.env.NODE_ENV = 'test';
     gulp.src('tests').pipe(jest({
@@ -44,8 +46,6 @@ const watch = (done) => {
         done: done
     });
 }
-
-
 
 module.exports = {
     build,
