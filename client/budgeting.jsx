@@ -13,19 +13,19 @@ const App = () => {
       <div>
         <Popup/>
 
-        <UserIndicator username = {[]} reloadUsername = {reloadUsername}/>
+        <UserIndicator/>
 
         <div id = "budgets">
           <div>
             <div className="column">
-              <BudgetIndicator budget={[]} reloadBudget = {reloadBudget} />
+              <BudgetIndicator/>
               <h2>Budget</h2>
               <BudgetForm triggerReload={() => setReloadBudget(!reloadBudget)}/>
             </div>
           </div>
           <div>
             <div className="column">
-              <AvailableBudgetIndicator availableBudget={[]} reloadAvailableBudget = {reloadAvailableBudget}/>
+              <AvailableBudgetIndicator/>
               <h2>Available Money</h2>
             </div>
           </div>
@@ -34,7 +34,7 @@ const App = () => {
         <div id = "expenses" className='column'>
           <h2>Expenses</h2>
           <ExpenseForm triggerReload={() => setReloadExpenses(!reloadExpenses)}/>
-          <ExpenseList expenses={[]} reloadExpenses={reloadExpenses} />
+          <ExpenseList expenses={[]} reloadExpenses={reloadExpenses} triggerReload={() => setReloadExpenses(!reloadExpenses)}/>
         </div>
 
       </div>
@@ -177,6 +177,7 @@ const App = () => {
 
 const changeBudget = (e, onBudgetAdded) => {
   e.preventDefault();
+  helper.hideError();
 
   const amount = e.target.querySelector('#budgetAmount').value;
   
@@ -186,12 +187,18 @@ const changeBudget = (e, onBudgetAdded) => {
     return false;
   }
 
+  if(amount <= 0) {
+    helper.handleError('Budget cannot be negative!');
+    return false;
+  }
+
   helper.sendPost(e.target.action, {amount}, onBudgetAdded);
   return false;
 }
 
 const addExpense = (e, onExpenseAdded) => {
   e.preventDefault();
+  helper.hideError();
 
   const name = e.target.querySelector('#expenseName').value;
   const amount = e.target.querySelector('#expenseAmount').value;
@@ -199,6 +206,11 @@ const addExpense = (e, onExpenseAdded) => {
 
   if(!name || !amount) {
     helper.handleError('All fields are required!');
+    return false;
+  }
+
+  if(amount < 0) {
+    helper.handleError('Amount cannot be negative!');
     return false;
   }
 
