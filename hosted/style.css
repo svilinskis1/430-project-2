@@ -54,7 +54,6 @@ a{
     padding-left: 3%;
 }
 
-
 /* inputs -------------------- */
 button, input[type=submit]{
     border: none;
@@ -137,7 +136,7 @@ nav a:active {
     justify-content: space-evenly;
 }
 
-#budget, #available {
+.budgetIndicator {
     font-size: 64px;
     font-weight: bolder;
     color: var(--main-color);
@@ -214,7 +213,7 @@ nav a:active {
 .hidden {
     display: none;
 }
-/*warning ---------------------------- */
+/*warnings--------------------------- */
 .warning{
     color: var(--warning-color);
 }

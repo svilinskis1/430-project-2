@@ -98,7 +98,7 @@ const changePassword = async (req, res) => {
 // returns: the current user's username
 const getUsername = async (req, res) => {
   try {
-    return res.json({username: req.session.account.username});
+    return res.json({ username: req.session.account.username });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Error retrieving username!' });

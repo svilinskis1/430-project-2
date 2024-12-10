@@ -78,7 +78,7 @@ const BudgetIndicator = (props) => {
   }, [props.reloadBudget, props.reloadExpenses]);
 
   return (
-    <h3 id = "Budget">${budget}</h3>
+    <h3 className = "budgetIndicator">${budget}</h3>
   )
 }
 
@@ -98,11 +98,11 @@ const AvailableBudgetIndicator = (props) => {
   //if the available budget is negative, make it red
   if(availableBudget < 0){
     return (
-      <h3 id = "available" className="warning">${availableBudget}</h3>
+      <h3 className = "budgetIndicator warning">${availableBudget}</h3>
     )
   }
   return (
-    <h3 id = "available">${availableBudget}</h3>
+    <h3 className = "budgetIndicator">${availableBudget}</h3>
   )
 }
 

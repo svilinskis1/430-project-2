@@ -23,7 +23,7 @@ const getBudget = async (req, res) => {
   try {
     const query = { _id: req.session.account._id };
     const docs = await Account.findOne(query);
-    return res.json({budget: docs.budget});
+    return res.json({ budget: docs.budget });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Error retrieving budget!' });
@@ -49,7 +49,7 @@ const getAvailableBudget = async (req, res) => {
 
     const accountId = { _id: req.session.account._id };
     const account = await Account.findOne(accountId);
-    const budget = account.budget;
+    const { budget } = account;
 
     const availablebudget = calculateAvailableBudget(budget, expenses);
 
